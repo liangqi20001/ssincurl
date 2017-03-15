@@ -37,7 +37,7 @@ new Vue({
                         }
                         var mappingText = JSON.stringify(mappingsObj)
                         var mappingJson = eval('(' + mappingText + ')')
-                        var ssHead = 'ss://'
+                        var ssHead = 'ssr://'
                         if (mappingJson) {
                             for (var j = 0; j < mappingJson.length; j++) {
                                 for (var k = 0; k < mappingJson[j].length; k++) {
