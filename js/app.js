@@ -31,6 +31,8 @@ new Vue({
                         var cmd = result.data[i].attributes.cmd
                         var pwd = this.rePwd(cmd)
                         var lock = this.reLock(cmd)
+						var obfs = this.reobfs(cmd)
+						var protocol = this.reprotocol(cmd)
                         var image_name = result.data[i].attributes.image_name
                         if (image_name.indexOf("ssr-with-net-speeder") ==-1) {
                             continue
@@ -48,8 +50,8 @@ new Vue({
                                     mappingResult.cmd = cmd
                                     mappingResult.pwd = pwd
                                     mappingResult.lock = lock
-                                    ssUrl = lock+':'+pwd+'@'+this.reHost(mappingJson[j][k].host)+':'+mappingJson[j][k].service_port
-                                    mappingResult.ss_url = ssHead+this.base64DeCode(ssUrl)
+                                    ssUrl = this.reHost(mappingJson[j][k].host)+':'+mappingJson[j][k].service_port+':'+protocol+':'+lock+':'+obfs+':'+pwd
+									mappingResult.ss_url = ssHead+this.base64DeCode(ssUrl)
                                     this.configs.push(mappingResult)
                                 }
                             }
@@ -75,9 +77,23 @@ new Vue({
         },
         reLock: function (oldLock) {
             if(oldLock == null) return
-            lock = oldLock.substring(oldLock.indexOf("m ")+2)
+            lock = oldLock.substring(oldLock.indexOf("m ")+2,oldLock.indexOf(" -O"))
             return lock
         },
+		
+
+		reprotocol:function(oldprotocol) {
+			if(oldprotocol == null) return
+            protocol = oldprotocol.substring(oldprotocol.indexOf("O ") + 2,oldprotocol.indexOf(" -o"))
+            return protocol
+		}
+		
+		reobfs:function(oldobfs) {
+			if(oldobfs == null) return
+            obfs = oldobfs.substring(oldobfs.indexOf("o ") + 2,oldobfs.indexOf(" -o"))
+            return obfs
+		}
+        
         base64DeCode: function (str) {
             var rawStr = str
             var wordArray = CryptoJS.enc.Utf8.parse(rawStr)
