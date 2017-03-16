@@ -50,6 +50,8 @@ new Vue({
                                     mappingResult.cmd = cmd
                                     mappingResult.pwd = pwd
                                     mappingResult.lock = lock
+									mappingResult.obfs = obfs
+									mappingResult.protocol = protocol
                                     ssUrl = this.reHost(mappingJson[j][k].host)+':'+mappingJson[j][k].service_port+':'+protocol+':'+lock+':'+obfs+':'+pwd
 									mappingResult.ss_url = ssHead+this.base64DeCode(ssUrl)
                                     this.configs.push(mappingResult)
